@@ -32,21 +32,39 @@
 \usepackage{graphicx} % Required for including images
 \graphicspath{{figures/}} % Location of the graphics files
 \usepackage{booktabs} % Top and bottom rules for table
+\usepackage{siunitx}
+
 \usepackage[font=small,labelfont=bf]{caption} % Required for specifying captions to tables and figures
 \usepackage{amsfonts, amsmath, amsthm, amssymb} % For math fonts, symbols and environments
 
 \usepackage{wrapfig} % Allows wrapping text around tables and figures
 
+\usepackage{supertabular}
 
+\usepackage{hyperref}
 
 \usepackage[utf8]{inputenc} % Pour utiliser les caractères accentués
 \usepackage{tikz}
-\usetikzlibrary{shapes,snakes}
+\usetikzlibrary{shapes}
 \usetikzlibrary{positioning}
 \usepackage[export]{adjustbox}
 \usepackage[skins,listings,breakable,listingsutf8,theorems,hooks,fitting]{tcolorbox}
 \usepackage[round]{natbib}
 \tcbuselibrary{raster}
+
+
+\usepackage{float}
+
+
+% constants
+\newcommand{\vspacebetweenbullets}{0.25cm}
+\newcommand{\vspacebetweensubsections}{2cm}
+\newcommand{\hspacefigandtext}{0.5cm}
+
+
+
+
+
 \begin{document}
 
 %----------------------------------------------------------------------------------------
@@ -97,13 +115,13 @@
 %
 \begin{minipage}[c]{0.2\linewidth}
   \center
-  \includegraphics[width=15cm]{logo_uqam.png} % Logo or a photo of you, adjust its dimensions here
+  \includegraphics[width=10cm]{logo_uqam.png} % Logo or a photo of you, adjust its dimensions here
 \end{minipage}
 \rule{\linewidth}{3pt}
 \end{minipage}
 %
 
-\vspace{0.5cm} % A bit of extra whitespace between the header and poster content
+\vspace{0.1cm} % A bit of extra whitespace between the header and poster content
 
 %----------------------------------------------------------------------------------------
 
@@ -126,8 +144,8 @@ over most mid-latitude land-masses in future climate \citep{collins2013}.
 In this study the changes in hydro-meteorological extremes are assessed over
 Canada, using transient climate change simulations of the fifth generation of
 Canadian Regional Climate (CRCM5) model. Specifically, the results are reported
-on changes to the rain on snow events over North America, heat wave events over
-Canada, high and low flow streamflow values \citep{huziy2016impact} both using
+on changes to the rain on snow events over North America \citep{jeong2016ros}, heat wave events over
+Canada \citep{jeong2016heatwave}, high and low flow streamflow values \citep{jeong2014copula,huziy2016impact} both using
 univariate and multivariate analysis over northeastern Canadian watersheds.
 
 
@@ -143,7 +161,7 @@ univariate and multivariate analysis over northeastern Canadian watersheds.
   \color{DarkSlateGray}
   \begin{enumerate}
     \item Summarize our recent results on projected changes to characteristics of hydrometeorologic extremes.
-    \item Analyze links and coherency of the results from different experiment configurations.
+    \item Analyze links and coherency of climate change projections from different experiment configurations.
   \end{enumerate}
 \end{tcolorbox}
 
@@ -155,33 +173,38 @@ univariate and multivariate analysis over northeastern Canadian watersheds.
 \subsection*{C.1 Methods}
 %
 \begin{itemize}
-  \item how rain on snow days determined
-  \item how heat wave days are determined
-  \item how return levels are calculated
-  \item How copula is used
+  \item (D.1) ROS day:  a day with both liquid precipitation and SWE above 1mm
+  \item (D.2) Heat wave event: a period of three or more consecutive days of Tmax at or above the absolute temperature threshold of 32$^\circ$C
+  \item (D.3) The Generalized Extreme Value (GEV) distribution is used to compute return
+        levels of extreme ({\color{red} high} and {\color{blue}low}) flow events. The {\color{red} high} ({\color{blue}low}) flow event is
+        defined as the maximum (minimum) 1-day (15-day) flow occurring during the \textbf{March}
+        to \textbf{July} (\textbf{January} to \textbf{May}) period. Statistical significance of the projected
+        changes to the {\color{red} high} and {\color{blue}low} flow return levels at the 5\%
+        significance level is determined using the non-parametric vector bootstrap
+        resampling method.
+  \item (D.4) Multivariate analysis using Copula: Links univariate marginal distribution
+         functions (Generalized Extreme Value distribution, GEV) to form a multivariate
+        distribution function (Clayton family).
 \end{itemize}
 
 \subsection*{C.2 Experiment setup}
+\begin{center}
+  \small
+  \begin{supertabular}{ccccl} \toprule
+      Section & $\Delta x$ & Current period & Future Period & Additional information \\ \toprule
+      D.1    & 0.4$^\circ$ & 1976-2005      & 2041-2070     & \begin{minipage}[t]{8cm}\flushleft CRCM5 and CanRCM4, RCP85 scenario\vspace{0.8cm} \end{minipage}\\
+      D.2    & 0.4$^\circ$ & 1970-1999      & 2040-2069     & \begin{minipage}[t]{8cm}\flushleft NARCCAP (North American Regional Climate Change Assessment Program), A2 scenario\vspace{0.8cm} \end{minipage}\\
+      D.3    & 0.1$^\circ$ & 1980-2010      & 2070-2100     & \begin{minipage}[t]{8cm}\flushleft lakes: Hostetler, rivers: WATROUTE-modified\vspace{0.8cm} \end{minipage}\\
+      D.4    & 0.4$^\circ$ & 1970-1999      & 2041-2070     & \begin{minipage}[t]{8cm}\flushleft Ensemble of CRCM4 simulations, WATROUTE-offline, A2 scenario\vspace{0.8cm} \end{minipage}\\
+      \bottomrule
+  \end{supertabular}
 
-\begin{tcolorbox}[colback=white,colframe=green!40!black]
-\center
-\begin{tabular}{c|c|c|c|l}
-    Section & $\Delta x$ & Current period & Future Period & Additional information \\
-    \hline\hline
-    D.1    & 0.1$^\circ$ & 1980-2010      & 2070-2100     & \begin{minipage}{8cm}\flushleft lakes: Hostetler, rivers: WATROUTE-modified \end{minipage}\\
-    D.2    &             & \\
-    D.3    &             &\\
-    D.4    &             &\\
-    \hline
-\end{tabular}
+  \vspace{1cm}
+  \begin{minipage}{\linewidth}
+   *If not specified, atmosphere is modelled using various CRCM (Canadian Regional Climate Model) model. CanRCM4 (ECCC/CCCma) is used only in (D.1).
+  \end{minipage}
+\end{center}
 
-\vspace{2cm}
-\begin{minipage}{\linewidth}
- *Atmosphere is modelled using various CRCM configurations in all presented experiments.
-\end{minipage}
-\end{tcolorbox}
-
-\vfill
 
 %----------------------------------------------------------------------------------------
 %	RESULTS
@@ -189,143 +212,72 @@ univariate and multivariate analysis over northeastern Canadian watersheds.
 
 \section*{(D) Results}
 
-\subsection*{D.1 Rain on snow events over North America}
-\begin{minipage}[t]{\linewidth}
-\begingroup
-\setlength{\columnsep}{30pt}
-\begin{wrapfigure}{l}{0.6\linewidth}
-  \center
-  \includegraphics{cc_num_of_ros}
-  \captionof{figure}{\label{fig_cc_num_of_ros}\color{Green} Projected changes to the number of ROS days for the three RCM simulations (i.e.,
-                                  CRCM5-MPIRCP8.5, CRCM5-CanRCP8.5, and CanRCM4-CanRCP8.5) for the future
-                                  2041-2070 period with respect to the current1976-2005 period. The black contour
-                                  represents the mean freezing line in future climate. Projected changes are shown
-                                  when they are statistically significant with the two-sample t-test at the 10\%
-                                  significance level.
-                                  }
-\end{wrapfigure}
-Figure \ref{fig_cc_num_of_ros} shows
-projected changes to monthly number of rain on snow (ROS) days, for CRCM5-MPIRCP8.5, CRCM5-CanRCP8.5, and CanRCM4-CanRCP8.5. The three
-simulations generally show increases in the future ROS characteristics to the
-north of the future freezing line, particularly from November to May. (Sasha
-added, please, check) The decreases at the start and end of the cold season are
-due to the shortening of the cold season and the increases in the middle of
-winter are caused by the increased fraction of liquid precipitation during
-colder periods.
+\subsection*{D.1 Rain on snow events over North America \citep{jeong2016ros}}
+\begin{center}
+\includegraphics[width=0.6\linewidth]{cc_num_of_ros}
+\captionof{figure}{\label{fig_cc_num_of_ros}\color{Green} Projected changes to the number of ROS days for the three RCM simulations (i.e.,
+                                CRCM5-MPIRCP8.5, CRCM5-CanRCP8.5, and CanRCM4-CanRCP8.5) for the future
+                                2041-2070 period with respect to the current1976-2005 period. The black contour
+                                represents the mean freezing line in future climate. Projected changes are shown
+                                when they are statistically significant with the two-sample t-test at the 10\%
+                                significance level.}
+\end{center}
+$\bullet$ The three simulations suggest general increases in the future ROS
+characteristics to the north of the future freezing line due to increases in
+rainfall frequency with increased air temperature \\[\vspacebetweenbullets]
+$\bullet$ They suggest general decreases in future ROS characteristics to the south of the
+future freezing line due to decreases in SWE and snow cover frequency in future
+climate \\[\vspacebetweenbullets]
+$\bullet$ Consequently, they generally suggest increases in future ROS characteristics
+during the November to March period for most regions of Canada and northwestern US
 
-\endgroup
-\end{minipage}
-\vspace{2cm}
+\subsection*{D.2 Heat wave events over Canada \citep{jeong2016heatwave}}
+\begin{center}
+\includegraphics[width=0.6\linewidth]{cc_heatwaves}
+\captionof{figure}{\label{fig_cc_heatwaves}\color{Green} Projected changes to the number of heat wave events per summer (JJA) for the 2 driving
+                                AOGCMs and 11 RCM-AOGCMs for the future 2040–2069 period with respect to the
+                                current 1970–1999 period. Grid points are colorless if simulations do not yield
+                                any heat wave event for both periods.}
+\end{center}
+$\bullet$ Projected changes are robust as all RCM-AOGCMs suggest an increase for southern Canada, where the 90th percentile of Tmax almost reached 32$^\circ$C in summer \\[\vspacebetweenbullets]
+$\bullet$ On average, RCM-AOGCMs suggest the largest increase in NPLAINS and the second largest increase in GRTLKS \\[\vspacebetweenbullets]
+$\bullet$ Several RCM-AOGCMs (i.e., HRM3-GFDL, HRM3-HadCM3, RCM3-CGCM3, and RCM3-GFDL)
+      tend to underestimate projected changes in the heat wave events, especially in
+      the southeastern Canadian climatic regions, due to cold biases in Tmax
 
+\subsection*{D.3 Projected changes to high and low flow return levels for major Quebec watersheds \citep{huziy2016impact}}
+\begin{center}
+  \includegraphics[width=0.6\linewidth]{extreme_low_and_high_flow_RL}
+  \captionof{figure}{\color{Green}
+  Projected changes for the 2070–2100 period with respect to the 1980-2010 period
+  to the 10- and 50-year return levels of 1-day high flow (upper panel) and of 2-
+  and 5-year return levels of 15-day low flow (bottom panel) for CanESM2-CRCM5-L.
+  Changes that are not significant at the 5\% significance level (evaluated using
+  bootstrap procedure) are hatched over.}
+\end{center}
+$\bullet$ Almost no significant changes to high flow return levels are detected for future climate. \\[\vspacebetweenbullets]
+$\bullet$ The changes to the low flow return levels are mostly positive and significant at the 5\% significance level over all studied watersheds. \\[\vspacebetweenbullets]
+$\bullet$ Some decreases to the low flow return levels are noted in the southern part of
+      the domain, which might indicate reduced groundwater contribution to streamflows
+      during low flow periods at those points in future climate due to enhanced summer
+      evaporation and reduced summer and fall precipitation.
 
-\subsection*{D.2 Heat wave events over Canada}
-\begin{minipage}[t]{\linewidth}
-  \begingroup
-  \setlength{\columnsep}{30pt}
-  \begin{wrapfigure}{r}{0.6\linewidth}
-  \includegraphics[width=\linewidth]{cc_heatwaves}
-  \captionof{figure}{\label{fig_cc_heatwaves}\color{Green} Projected changes to the number of heat wave events per summer for the 2 driving
-                                  AOGCMs and 11 RCM-AOGCMs for the future 2040–2069 period with respect to the
-                                  current 1970–1999 period. Grid points are colorless if simulations do not yield
-                                  any heat wave event for both periods.
-                                  }
-  \end{wrapfigure}
-  Projected changes to the number of heat wave events for the future period with
-  respect to the current period of 11 RCM-AOGCMs and 2 driving AOGCMs are shown in
-  Fig. \ref{fig_cc_heatwaves}. These changes are robust as all the 11 RCM-AOGCMs and 2 AOGCMs generally
-  show an increase in the number of heat wave events for southern Canada, where
-  the 90\textsuperscript{th} percentile of Tmax is near 32${^\circ}$C, i.e., the threshold of heat wave, for
-  the 1981–2003 summer period, compared to other regions.
+\subsection*{D.4 Extreme flow characteristics for Quebec watersheds based on a multivariate distribution \citep{jeong2014copula}}
+\begin{center}
+   \includegraphics[width=0.6\linewidth]{cc_copula}
+\end{center}
 
-  \endgroup
-\end{minipage}
-\vfill
-
-
-
-
-
-% \begin{tcbitemize}[raster columns=2, raster equal height]
-%
-% %\tcbitem[colback=white,colframe=white,sidebyside align=top,sidebyside]
-%   \tcbitem[colback=white,colframe=green!40!black, adjusted title={Lake-atm. interactions (Fig. \ref{fig_la_and_lr}a)}]
-%   \color{DarkSlateGray}
-%   \begin{itemize}
-%     \item Impact of lake-atm. interactions is mostly positive, but modest.
-%   \end{itemize}
-%
-% \tcbitem[colback=white,colframe=green!40!black, adjusted title={Lake-river interactions (Fig. \ref{fig_la_and_lr}b)}]
-%   \color{DarkSlateGray}
-%   \begin{itemize}
-%     \item Winter impacts are positive and significant for the bigger northern part of the domain due to additional water coming to the river network from lakes.
-%     \item Mostly negative impacts are obtained in spring since part of water from snow melt is stored in lakes to be released later into the river network.
-%   \end{itemize}
-%
-% \end{tcbitemize}
-
-
-
-\subsection*{D.3 Projected changes to high and low flow return levels for major Quebec watersheds}
-\begin{minipage}[t]{\linewidth}
-  \begin{minipage}[t]{0.5\linewidth}
-      \includegraphics[width=0.95\linewidth]{extreme_low_and_high_flow_RL}
-      \captionof{figure}{\color{Green}
-      Projected changes for the 2070–2100 period with respect to the 1980-2010 period
-      to the 10- and 50-year return levels of 1-day high flow (upper panel) and of 2-
-      and 5-year return levels of 15-day low flow (bottom panel) for CanESM2-CRCM5-L.
-      Changes that are not significant at the 5\% significance level (evaluated using
-      bootstrap procedure) are hatched over.
-      }
-  \end{minipage}
-  \hfill
-  \begin{minipage}[c]{0.45\linewidth}
-    \center
-    \begin{itemize}
-      \item Almost no significant changes to high flow return levels are detected for future climate.
-      \item The changes to the low flow return levels are mostly positive and significant at the 5\% significance level over all studied watersheds.
-      \item Some decreases to the low flow return levels are noted in the southern part of the domain, which might indicate reduced groundwater contribution to streamflows during low flow periods at those points in future climate due to enhanced summer evaporation and reduced summer and fall precipitation.
-      \item For more details see \citet{huziy2016impact}.
-    \end{itemize}
-  \end{minipage}
-\end{minipage}
-
-
-
-\subsection*{D.4 Extreme flow characteristics for Quebec watersheds based on a multivariate distribution}
-%
-\begin{minipage}[t]{\linewidth}
-
-\begingroup
-  \setlength{\columnsep}{30pt}
-
-  \begin{wrapfigure}{r}{0.6\linewidth}
-    \includegraphics[width=\linewidth]{cc_copula}
-    \captionof{figure}{\label{fig_cc_copula}\color{Green} Fifty-year return levels of (a) peak, volume and duration and their joint
-                occurrence probabilities computed using merged longer samples for CRCM-CGCMc
-                (column 1) and CRCM-CGCMf (column 2). Percentage difference between CRCM-CGCMf
-                and CRCM-CGCMc is shown in column 3.}
-  \end{wrapfigure}
-  Fig. \ref{fig_cc_copula} presents marginal return values and joint occurrence probabilities for
-  50-year return period for CRCM-CGCMc and CRCM-CGCMf, estimated using merged
-  series. Percentage changes in marginal return levels and P1 and P2 values are
-  also shown. On average, the projected changes to marginal 50-year return levels
-  of flood peak, volume and duration suggest increases in future climate. The
-  projected increases in the flood peak, volume and duration for the majority of
-  the basins are caused by increased winter and spring precipitation and warmer
-  spring temperatures, leading to increased spring snowmelt in future climate.
-  Projected changes to the joint occurrence probabilities of the peak-volume,
-  peak-duration and volume-duration pairs of flood characteristics were studied
-  for the very first time for the 21 watersheds considered in this study. Results
-  suggest future increases for the joint occurrence probabilities with larger
-  increases for longer return periods than shorter return periods.
-
-\endgroup
-%
-\end{minipage}
-\hfill
-\vspace{2cm}
-
-
+\captionof{figure}{\label{fig_cc_copula}\color{Green} Fifty-year return levels of (a) peak, volume and duration and their joint
+            occurrence probabilities computed using merged longer samples for CRCM-CGCMc
+            (column 1) and CRCM-CGCMf (column 2). Percentage difference between CRCM-CGCMf
+            and CRCM-CGCMc is shown in column 3.}
+$\bullet$ The projected changes to marginal 50-year return levels of flood peak, volume and duration suggest increases in future climate. \\[\vspacebetweenbullets]
+$\bullet$ The projected increases in the flood peak, volume and duration for the majority
+of the basins are caused by increased winter and spring precipitation and warmer
+spring temperatures, leading to increased spring snowmelt in future climate. \\[\vspacebetweenbullets]
+$\bullet$ Projected changes to joint occurrence probabilities of 50-year return levels for
+the peak-volume, peak-duration and volume-duration pairs of flood
+characteristics are suggested to increases in future climate.
 
 %----------------------------------------------------------------------------------------
 %	CONCLUSIONS
@@ -334,7 +286,7 @@ colder periods.
 \color{SaddleBrown} % SaddleBrown color for the conclusions to make them stand out
 
 \section*{(E) Conclusions}
-
+\begin{minipage}[t]{\linewidth}
 \begin{itemize}
 \item D.1 and D.3: Increased low flow values in D.3 agree with
 the shortening of the cold period and increased fraction of liquid precipitation
@@ -344,12 +296,17 @@ projected in D.1.
 in-line with the decreasing low flow amplitudes in the southern part of the
 domain.
 
+\item D.3 and D.4: Differences in projected changes to the 50-year return levels
+of high flows highlight the importance of assessing uncertainties associated
+with physical parameterizations, driving data and resolution used for transient
+climate change runs.
+
 \item Simulations over bigger regions and the complete analysis of both
 atmospheric fields and streamflows are required to further improve our
 confidence in the relationships between projected changes to the parameters of
 hydrometeorologic extremes.
 \end{itemize}
-
+\end{minipage}
 \color{DarkSlateGray} % Set the color back to DarkSlateGray for the rest of the content
 
 
@@ -357,8 +314,7 @@ hydrometeorologic extremes.
 %	REFERENCES
 %----------------------------------------------------------------------------------------
 
-\nocite{*} % Print all references regardless of whether they were cited in the poster or not
-\small
+%\nocite{*} % Print all references regardless of whether they were cited in the poster or not
 \bibliographystyle{agu} % Plain referencing style
 \bibliography{sample} % Use the example bibliography file sample.bib
 
@@ -366,9 +322,23 @@ hydrometeorologic extremes.
 %	ACKNOWLEDGEMENTS
 %----------------------------------------------------------------------------------------
 \section*{Acknowledgements}
-\small
 This research was carried out within the Canadian Network for Regional Climate and Weather Processes (CNRCWP) project funded by the Natural Sciences and Engineering Research Council (NSERC) of Canada.
 %----------------------------------------------------------------------------------------
+
+\vfill
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Additional information]
+Interested in CNRCWP activities?
+
+Visit our website and subscribe to our twitter account:
+\tcblower
+\begin{itemize}
+  \item webpage: \href{http://cnrcwp.uqam.ca}{http://cnrcwp.uqam.ca}
+  \item twitter: \href{http://twitter.com/cnrcwp}{http://twitter.com/cnrcwp}
+\end{itemize}
+\end{tcolorbox}
+%
+
+
 
 \end{multicols*}
 \end{document}
